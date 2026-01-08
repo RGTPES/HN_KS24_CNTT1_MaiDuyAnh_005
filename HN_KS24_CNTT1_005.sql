@@ -65,53 +65,66 @@ values(1 , 1 ,"Cash" , 60.00 ,"2025-05-01"),
 (6 , 6 ,"Bank Transfer" , 60.00 ,"2025-05-06"),
 (7 , 7 ,"Credit Card" , 110.00 ,"2025-05-07"),
 (8 , 8 ,"Cash" , 25.00 ,"2025-05-08");
-
+-- phan 1
+-- 1
 Update  Creators
 set creator_platform = "Youtube" 
 where creator_id = "CR03";
+-- 2
 Update Studios
 set  studio_status = "Available" , hourly_price = hourly_price * 0.9
 where  studio_id = "ST05";
+-- 3
 Delete from  Payments
 where payment_method = 	"Cash" and payment_date < "2025-05-03";
 -- phan2
+-- 1
 select studio_name from Studios where studio_status = 'Available' and hourly_price > 20;
+-- 2
 select creator_name, creator_phone from Creators where  creator_platform = "TikTok";
+-- 3
 select studio_id,studio_name,hourly_price from Studios order by hourly_price desc;
+-- 4
 select payment_id from Payments where payment_method = 'Credit Card' limit 3;
+-- 5
 select 	creator_id, creator_name from Creators limit 2 offset 2;
 -- phan3
+-- 1
 select l.session_id , c.creator_name,s.studio_name, l.duration_hours,p.payment_amount
 from LiveSessions l 
 join Creators c on l.creator_id = c.creator_id
 join Studios s on l.studio_id = s.studio_id
 join Payments p on l.session_id = p.session_id;
+-- 2
 select  s.studio_name  , count(*)  as 'total_use'
 from Studios s 
 join LiveSessions l on s.studio_id = l.studio_id 
 group by s.studio_name;
+-- 3
 select payment_method , sum(payment_amount) as "tongdoanhthu" from Payments group by payment_method;
-
+-- 4
 select c.creator_id, c.creator_name, count(l.session_id) as 'total_session'
 from Creators c
 join LiveSessions l on c.creator_id = l.creator_id
 group by c.creator_id, c.creator_name
 having count(l.session_id) >= 2;
-
+-- 5
 select studio_id, studio_name, hourly_price
 from Studios
 where hourly_price > (select avg(hourly_price) from Studios);
-
+-- 6
 select c.creator_name, c.creator_email
 from Creators c
 join LiveSessions l on c.creator_id = l.creator_id
 join Studios s on l.studio_id = s.studio_id
 where s.studio_name = 'Studio B';
+-- 7
 select l.session_id, c.creator_name, s.studio_name, p.payment_method, p.payment_amount
 from Creators c
 left join LiveSessions l on c.creator_id = l.creator_id
 left join  Studios s on l.studio_id = s.studio_id
 left join  Payments p on l.session_id = p.session_id;
+-- cai 1 bi null boi vi da delete o ben tren 
 
 
 
